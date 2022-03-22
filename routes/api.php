@@ -31,6 +31,7 @@ Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
 
 Route::get('productRead',[ProductController::class,'productRead']);
+Route::get('productReadGuest',[ProductController::class,'productReadGuest']);
 Route::get('productReadID/{id}',[ProductController::class,'productReadID']);
 
 //ใช้Token

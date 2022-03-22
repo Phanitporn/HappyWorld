@@ -27,12 +27,12 @@ class AuthController extends Controller
             'gender' => $validate['gender'],
         ]);
 
-        $token = $user->createToken('my-Device')->plainTextToken;
+        //$token = $user->createToken('my-Device')->plainTextToken;
         $response = [
             'user' => $user,
-            'token' => $token
+            'token' => "Register Success"
         ];
-        return response($response);
+        return response($response,201);
     
 
     }
@@ -49,25 +49,26 @@ class AuthController extends Controller
                 $response = [
                     'message' => 'Email or Password incorrect'
                 ];
-                return response($response);
+                return response($response,401);
             }else{
                 //ลบ Token เก่าที่ค้างอยู่
                 $user->tokens()->delete();
                 //สร้าง Token ใหม่
-                $token = $user->createToken('my-Device')->plainTextToken;
+                $token = $user->createToken($request->userAgent())->plainTextToken;
                 $response = [
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'message' => 'Login Success'
                  ];
-        return response($response);
+                return response($response,201);
             }
     }
 
-    public function logout(){
-        auth()->user()->tokens()->delete();
+    public function logout(Request $request){
+        $request -> user()->currentAccessToken()->delete();
         $response = [
             'message' => 'Logout Success'
         ];
-        return $response;
+        return response($response,201);
     }
 }
